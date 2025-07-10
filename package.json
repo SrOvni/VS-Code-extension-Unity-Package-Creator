@@ -3,6 +3,11 @@
   "displayName": "unity-package-creator",
   "description": "Create a template for a unity package",
   "version": "0.0.1",
+  "publisher": "RenierGaytan",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SrOvni/VS-Code-extension-Unity-Package-Creator.git"
+  },
   "engines": {
     "vscode": "^1.101.0"
   },

@@ -2,6 +2,8 @@ import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
 
+
+var packagePath = "";
 export function activate(context: vscode.ExtensionContext) {
   let disposable = vscode.commands.registerCommand('unityPackageCreator.createUnityPackage', async () => {
       const packageName = await vscode.window.showInputBox({
@@ -25,12 +27,12 @@ export function activate(context: vscode.ExtensionContext) {
 		}
 		const selectedPath = folderUri[0].fsPath;
 
-      const packagesPath = path.join(selectedPath, packageName);
-      fs.mkdirSync(packagesPath, { recursive: true });
+      packagePath = path.join(selectedPath, packageName);
+      fs.mkdirSync(packagePath, { recursive: true });
 
       // Subfolders
       ['Runtime', 'Editor', 'Tests'].forEach(subdir =>
-        fs.mkdirSync(path.join(packagesPath, subdir), { recursive: true })
+        fs.mkdirSync(path.join(packagePath, subdir), { recursive: true })
       );
 
 	  const userProvidedDescription = await vscode.window.showInputBox({
@@ -39,7 +41,7 @@ export function activate(context: vscode.ExtensionContext) {
 	  const description = userProvidedDescription || "Your Unity package description.";
 
       // Files
-      fs.writeFileSync(path.join(packagesPath, 'package.json'), `{
+      fs.writeFileSync(path.join(packagePath, 'package.json'), `{
   "name": "${packageName}",
   "version": "0.1.0",
   "displayName": "${packageName}",
@@ -52,17 +54,17 @@ export function activate(context: vscode.ExtensionContext) {
 }
 `);
 
-      fs.writeFileSync(path.join(packagesPath, 'CHANGELOG.md'), `# Changelog
+      fs.writeFileSync(path.join(packagePath, 'CHANGELOG.md'), `# Changelog
 
 ## [0.1.0] - Initial version
 `);
 
-      fs.writeFileSync(path.join(packagesPath, 'LICENSE.md'), `MIT License
+      fs.writeFileSync(path.join(packagePath, 'LICENSE.md'), `MIT License
 
 Your license here.
 `);
 
-      fs.writeFileSync(path.join(packagesPath, 'README.md'), `# ${packageName}
+      fs.writeFileSync(path.join(packagePath, 'README.md'), `# ${packageName}
 
 Describe your Unity package here.
 `);
@@ -72,6 +74,7 @@ Describe your Unity package here.
   );
 
   context.subscriptions.push(disposable);
+  
 }
 
 export function deactivate() {}
