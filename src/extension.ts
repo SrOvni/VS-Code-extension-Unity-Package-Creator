@@ -40,16 +40,36 @@ export function activate(context: vscode.ExtensionContext) {
       });
 	  const description = userProvidedDescription || "Your Unity package description.";
 
+    const userOrCompanyName = await vscode.window.showInputBox(
+      {
+        prompt: "Enter company or author name"
+      }
+    )
+    const unityV = await vscode.window.showInputBox(
+      {
+        prompt: "Enter the Unity version that you're using"
+      }
+    )
+    const unityVersion = unityV || "No Unity Version Provided";
+    const packageAuthor = userOrCompanyName || "No user o company name provided";
+
+    const email = await vscode.window.showInputBox(
+      {
+        prompt: "Enter email addres or press enter to leave it blank"
+      }
+    )
+    const emailAddress = email || "No email addres provided";
+
       // Files
       fs.writeFileSync(path.join(packagePath, 'package.json'), `{
-  "name": "${packageName}",
+  "name": "com.${packageAuthor}.${packageName.toLowerCase()}",
   "version": "0.1.0",
   "displayName": "${packageName}",
   "description": "${description}",
-  "unity": "2021.3",
+  "unity": "${unityVersion}",
   "author": {
-    "name": "Your Name",
-    "email": "you@example.com"
+    "name": "${packageAuthor}",
+    "email": "${emailAddress}"
   }
 }
 `);
