@@ -2,7 +2,7 @@
   "name": "unity-package-creator",
   "displayName": "unity-package-creator",
   "description": "Create a template for a unity package",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "publisher": "RenierGaytan",
   "repository": {
     "type": "git",
